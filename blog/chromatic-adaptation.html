@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="keywords" content="Yuhao Zhu, University of Rochester, rochester"> 
+  <meta name="description" content="Homepage of Yuhao Zhu"> 
+
+  <!--twitter card-->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Principles and Practices of Chromatic Adaptation" />
+  <meta name="twitter:description" content="How and why your subjective color perception changes with the environment you are in, and how to leverage it to achieve stable color perception in practice." />
+  <meta name="twitter:image" content="http://www.handprint.com/HP/WCL/IMG/adapdem.jpg" />
+
+  <title>Yuhao Zhu</title>
+  
+  <link href="../css/bootstrap.css" rel="stylesheet" />
+  <link href="../css/yuhao.css" rel="stylesheet" />
+  <link rel="icon" href="../favicon.ico" />
+  <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,400,700" rel="stylesheet">
+  <link rel="stylesheet" href="md.css">
+  <!-- from https://github.com/sindresorhus/github-markdown-css -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.1.0/github-markdown.min.css" integrity="sha512-KUoB3bZ1XRBYj1QcH4BHCQjurAZnCO3WdrswyLDtp7BMwCw7dPZngSLqILf68SGgvnWHTD5pPaYrXi6wiRJ65g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-chtml.min.js" integrity="sha512-T8xxpazDtODy3WOP/c6hvQI2O9UPdARlDWE0CvH1Cfqc0TXZF6GZcEKL7tIR8VbfS/7s/J6C+VOqrD6hIo++vQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.4.0/showdown.min.js"></script>
+
+<link rel="prerender" href="https://www.cs.rochester.edu/horizon"> <!-- for Chrome and IE that support this -->
+<link rel="prefetch" href="https://www.cs.rochester.edu/horizon">
+
+</head>
+
+<body>
+<div class="container">
+
+<nav class="navbar-default page-header">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span> 
+      </button>
+      <a class="navbar-brand" href="/index.html">Yuhao Zhu</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="https://www.cs.rochester.edu/horizon">Research</a></li>
+        <li><a href="https://www.cs.rochester.edu/horizon/pubs.html">Publications</a></li>
+        <li><a href="/blog">Blog</a></li>
+        <li><a href="/misc.html">Misc</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="markdown-body" id="content">
+</div>
+
+<script>
+function readTextFile(file)
+{
+    var rawFile = new XMLHttpRequest();
+    rawFile.open("GET", file, false);
+    rawFile.onreadystatechange = function ()
+    {
+        if(rawFile.readyState === 4)
+        {
+            if(rawFile.status === 200 || rawFile.status == 0)
+            {
+                var allText = rawFile.responseText;
+                var conv = new showdown.Converter();
+                document.getElementById('content').innerHTML = conv.makeHtml(allText);
+            }
+        }
+    }
+    rawFile.send(null);
+}
+readTextFile("src/md/chromatic-adaptation.md");
+</script>
+
+</div>
+
+
+
+<div style="height: 20pt"></div>
+
+</body>
+</html>
