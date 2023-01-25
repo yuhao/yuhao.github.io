@@ -421,6 +421,7 @@ A key challenge in digital camera imaging is white balance, which arises from th
 Why does this matter? The photographer is adapted to \\( \Phi\_c \\) while the camera, without care, would not adapt and simply tries to accurately capture the XYZ/LMS values of the scene points (which more of less is the case if we have a good color correction mechanism); when the photo captured by the camera is presented to a user, the user will adapt to \\( \Phi\_v \\).
 Therefore, the user will not perceive the color the same as what the photographer perceives when the photo is taken.
 
+<span id="sec51"></span>
 ### 5.1 White Balance Using Chromatic Adaptation
 
 The goal of white balance is to adjust the raw camera RGB values in such a way that the photo, when presented to the viewer under \\( \Phi\_v \\), will have the same color appearance as that of the original scene under \\( \Phi\_c \\). This means we will have to perform a chromatic adaptation from \\( \Phi\_c \\) to \\( \Phi\_v \\). The only complexity is that chromatic adaptation needs to operate in a colorimetric space, but the raw camera values are not in a colorimetric space --- we have to perform a color correction first (as described before)!
@@ -455,7 +456,7 @@ Alternatively, we could manually estimate the capturing illuminant -- if we are 
 ### 5.3 White Balance and Color Correction --- Which Comes First?
 
 Strictly speaking, color correction should be performed before white balance, because white balance should operate in a colorimetric space (e.g., LMS or XYZ).
-However, many cameras including DSLR and smartphones perform white balance before color correction, where white balancing is done by scaling the raw RGB values. How can this be correct? You can read [this excellent article](https://www.spiedigitallibrary.org/journals/optical-engineering/volume-59/issue-11/110801/Color-conversion-matrices-in-digital-cameras-a-tutorial/10.1117/1.OE.59.11.110801.full?SSO=1) (Section 5) by Andrew Rowlands for details, but long story short what cameras do is to re-express the equation above as:
+However, many cameras including DSLR and smartphones (in their raw image signal processing pipelines) perform white balance <i>before</i> color correction, where white balancing is done by simply scaling the raw RGB values. How can this possible be correct? You can read [this excellent article](https://www.spiedigitallibrary.org/journals/optical-engineering/volume-59/issue-11/110801/Color-conversion-matrices-in-digital-cameras-a-tutorial/10.1117/1.OE.59.11.110801.full?SSO=1) (Section 5) by Andrew Rowlands for details. Long story short, what cameras do is to re-express the equation in [Section 5.1](#sec51) as:
 
 $$
 \begin{bmatrix}
@@ -477,9 +478,8 @@ $$
 M\_{xyz-srgb} \times M\_{\Phi\_c-\Phi\_v} \times T\_{cam-xyz} = R \times D
 $$
 
-\\( D \\) is a diagonal matrix that scales the raw RGB values, and \\( R \\) is derived accordingly. The diagonal matrix \\( D \\) is calculated such that the capturing illuminant's raw RGB values is transformed to \\( [1, 1, 1] \\). Since after chromatic adaption the scene illuminant will become \\( [1, 1, 1] \\) in linear sRGB as well, each row in \\( R \\) sum to \\( 1 \\). That is, \\( R \\) transform \\( [x, x, x] \\) to \\( [x, x, x] \\) for arbitrary \\( x \\), i.e., rotating around the gray axis. That's why Rowlands call \\( R \\) a rotation matrix.
-
-Digital camera photography literature calls scaling the raw RGB values by the diagonal matrix \\( D \\) "white balance" and transformation by matrix \\( R \\) "color correction", which you now should know is technically incorrect or at least confusing. Both matrices are encoded in, or derivable from, raw images (e.g., Adobe's DNG format). For instance, you can retrieve \\( R \\) and \\( D \\) using the [RawPy](https://letmaik.github.io/rawpy/api/rawpy.RawPy.html) Python package from `camera_whitebalance` and `color_matrix` parameters, respectively.
+\\( D \\) is designed to be a diagonal matrix that scales the raw RGB values, and \\( R \\) is derived accordingly. The diagonal matrix \\( D \\) is calculated such that the capturing illuminant's raw RGB values are transformed to \\( [1, 1, 1] \\) after being scaled by \\( D \\).
+Digital camera photography literature calls scaling the raw RGB values by the diagonal matrix \\( D \\) "white balance" and the subsequent transformation by matrix \\( R \\) "color correction", which you now should know is technically incorrect or at least confusing.
 
 According to Rowlands, there are two main incentives for this mathematical re-expression.
 First, the CCM is only approximate and contains error: “In particular, color errors that have been minimized in a nonlinear color space such as CIELAB will be unevenly amplified, so the color conversion will no longer be optimal.” White-balancing in raw RGB minimizes the impact of color correction errors on white balancing.
@@ -492,7 +492,11 @@ It turns out that if we were to scale the raw RGB first (e.g., white balancing i
 
 <p align="center"><img src="imgs/OE_59_11_110801_f014.png" width="400"></p>
 
-According to Rowlands, traditional cameras and [DCRaw](https://dechifro.org/dcraw/) perform white balance (in raw) before color correction while smartphone cameras conventionally take the other approach, although there is [evidence](https://karaimer.github.io/camera-pipeline/) that smartphone cameras are increasingly taking the former approach too. [Adobe’s DNG converter](https://helpx.adobe.com/photoshop/using/adobe-dng-converter.html) provides both modes.
+According to Rowlands, traditional cameras and [DCRaw](https://dechifro.org/dcraw/) perform "white balance" (in raw) before color correction while smartphone cameras conventionally take the other approach, although there is [evidence](https://karaimer.github.io/camera-pipeline/) that smartphone cameras are increasingly taking the former approach too. [Adobe’s DNG converter](https://helpx.adobe.com/photoshop/using/adobe-dng-converter.html) provides both modes.
+
+It's worth noting that both the \\( D \\) matrix and the \\( R \\) matrix are stored in, or derivable from, raw images (e.g., Adobe's DNG format). For instance, you can retrieve \\( R \\) and \\( D \\) using the [RawPy](https://letmaik.github.io/rawpy/api/rawpy.RawPy.html) Python package from `camera_whitebalance` and `color_matrix` parameters, respectively.
+
+One minor detail: sometimes the \\( R \\) matrix is also called a rotation matrix; why? We know that the capturing illuminant will eventuallybecome \\( [1, 1, 1] \\) in linear sRGB (due to chromatic adaption). Therefore, each row in \\( R \\) must sum to \\( 1 \\). That is, \\( R \\) transform \\( [x, x, x] \\) to \\( [x, x, x] \\) for arbitrary \\( x \\), i.e., rotating around the gray axis.
 
 <!--
 ### 5.4 Simplified White Balance Using “von Kries-style” Scaling
