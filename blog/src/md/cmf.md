@@ -463,11 +463,11 @@ I wanted to express my gratitude to Arthur Broadbent so much. His reverse engine
 
 [Broadbent 2004a] A Critical Review of the Development of the CIE1931 RGB Color-Matching Functions. Color Research & Application 29(4):267–272. August 2004.
 
-[Broadbent 2004b] Calculation from the original experimental data of the CIE 1931 RGB standard observer spectral chromaticity co-ordinates and color matching functions.
+[[Broadbent 2004b]](https://web.archive.org/web/20060830060542/http://www.cis.rit.edu/mcsl/research/1931.php) Calculation from the original experimental data of the CIE 1931 RGB standard observer spectral chromaticity co-ordinates and color matching functions.
 
 [Fairman 1997] Fairman HS, Brill MH, Hemmendinger H. How the CIE1931 color- matching functions were derived from the Wright–Guild data. Color Res Appl 1997;22:11–23.
 
-[Service 2016] The Wright - Guild Experiments and the Development of the CIE 1931 RGB and XYZ Color Spaces. https://philservice.typepad.com/Wright-Guild_and_CIE_RGB_and_XYZ.pages.pdf.
+[[Service 2016]](https://philservice.typepad.com/Wright-Guild_and_CIE_RGB_and_XYZ.pages.pdf) The Wright - Guild Experiments and the Development of the CIE 1931 RGB and XYZ Color Spaces.
 
 [Roorda 1999] The arrangement of the three cone classes in the living human eye. Nature volume 397, pages 520–522(1999).
 
